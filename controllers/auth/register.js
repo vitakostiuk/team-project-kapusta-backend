@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { User } = require('../../models');
 const createError = require('../../helpers/createError');
 const { registerSchema } = require('../../schemas');
-
+const { categories } = require('../../services');
 
 const register = async(req, res) => {
     const {error} = registerSchema.validate(req.body);
@@ -18,7 +18,12 @@ const register = async(req, res) => {
     }
     const avatarURL = gravatar.url(email);
     const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-    await User.create({email, password: hashPassword, avatarURL});
+
+    const newUser = new User({ email, password: hashPassword, avatarURL });
+    await newUser.save();
+
+    await categories.defaultUserCategories(newUser._id);
+    
     res.status(201).json({
         user: {
             email,
