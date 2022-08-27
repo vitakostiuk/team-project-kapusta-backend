@@ -30,7 +30,8 @@ const googleRedirect = async (req, res) => {
     }
   });
 
-  const {email, access_token: token, picture: avatarURL} = userData.data;
+  const {email, picture: avatarURL} = userData.data;
+  const {access_token: token} = tokenData.data;
 
   const user = await User.findOne({email});
 
