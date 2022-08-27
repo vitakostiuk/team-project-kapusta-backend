@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 
+
 const transactionSchema = new Schema(
     {
         date: {
@@ -17,7 +18,7 @@ const transactionSchema = new Schema(
         },
         value: {
             type: Number,
-            default: 0,
+            required: true,
         },
         income: {
             type: Boolean,
@@ -31,7 +32,7 @@ const transactionSchema = new Schema(
     { versionKey: false, timestamps: true }
 );
 
-const Transaction = model("transactions", transactionSchema);
+const Transaction = model("transaction", transactionSchema);
 
 module.exports = {
   Transaction,
