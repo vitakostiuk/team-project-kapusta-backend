@@ -20,6 +20,10 @@ const transactionSchema = new Schema(
             required: true,
             default: 0
         },
+        income: {
+            type: Boolean,
+            required: true
+        },
         owner: {
             type: Schema.Types.ObjectId,
             ref: 'user',
