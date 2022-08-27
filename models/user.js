@@ -19,6 +19,10 @@ const userSchema = Schema(
       type: String,
       required: true,
     },
+    balance: {
+      type: Number,
+      default: 0
+    }
   },
   { versionKey: false, timestamps: true }
 );

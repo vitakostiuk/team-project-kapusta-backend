@@ -12,4 +12,6 @@ router.get('/current', user, ctrlWrapper(users.getCurrent));
 
 router.patch('/avatars', user, upload.single('avatar'), ctrlWrapper(users.updateAvatar));
 
+router.patch('/:UserId/balance', user,  ctrlWrapper(users.updateBalance));
+
 module.exports = router;
