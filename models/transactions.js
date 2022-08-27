@@ -17,8 +17,7 @@ const transactionSchema = new Schema(
         },
         value: {
             type: Number,
-            required: true,
-            default: 0
+            default: 0,
         },
         income: {
             type: Boolean,
