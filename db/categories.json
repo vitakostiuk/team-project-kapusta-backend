@@ -1,0 +1,55 @@
+[
+    {
+        "title": "Products",
+        "type": "expenses"
+    },
+    {
+        "title": "Alcohol",
+        "type": "expenses"
+    },
+    {
+        "title": "Entertainment",
+        "type": "expenses"
+    },
+    {
+        "title": "Health",
+        "type": "expenses"
+    },
+    {
+        "title": "Transport",
+        "type": "expenses"
+    },
+    {
+        "title": "Housing",
+        "type": "expenses"
+    },
+    {
+        "title": "Technique",
+        "type": "expenses"
+    },
+    {
+        "title": "Communal, communication",
+        "type": "expenses"
+    },
+    {
+        "title": "Sports, hobbies",
+        "type": "expenses"
+    },
+    {
+        "title": "Education",
+        "type": "expenses"
+    },
+    {
+        "title": "Other",
+        "type": "expenses"
+    }
+    ,
+    {
+        "title": "Salary",
+        "type": "income"
+    },
+    {
+        "title": "Additional income",
+        "type": "income"
+    }
+]
