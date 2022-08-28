@@ -12,9 +12,9 @@ router.get('/current', user, ctrlWrapper(users.getCurrent));
 
 router.patch('/avatars', user, upload.single('avatar'), ctrlWrapper(users.updateAvatar));
 
-router.patch('/:UserId/balance', user, ctrlWrapper(users.updateBalance));
+router.patch('/balance', user, ctrlWrapper(users.updateBalance));
 
-router.get('/:UserId/balance', user, ctrlWrapper(users.getBalance));
+router.get('/balance', user, ctrlWrapper(users.getBalance));
 
 
 module.exports = router;
