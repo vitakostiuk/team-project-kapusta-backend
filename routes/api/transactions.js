@@ -8,6 +8,6 @@ const {user} = require("../../middlewares");
 
 const router = express.Router();
 
-router.post('/:UserId', user, ctrlWrapper(transactions.addTransaction));
+router.post('/:type', user, ctrlWrapper(transactions.addTransaction));
 
 module.exports = router;
