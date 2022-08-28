@@ -1,9 +1,7 @@
 const getIncome = require('./getIncome');
-const getBalance = require('./getBalance');
-const addExpense = require('./addExpense');
+const addTransaction = require('./addTransaction');
 
 module.exports = {
     getIncome,
-    getBalance,
-    addExpense
+    addTransaction
 }

@@ -8,8 +8,6 @@ const {user} = require("../../middlewares");
 
 const router = express.Router();
 
-router.get('/:UserId', user, ctrlWrapper(transactions.getBalance));
-
-router.post('/:UserId/expense', user, ctrlWrapper(transactions.addExpense));
+router.post('/:UserId', user, ctrlWrapper(transactions.addTransaction));
 
 module.exports = router;
