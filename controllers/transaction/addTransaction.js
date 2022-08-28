@@ -1,9 +1,9 @@
-const {Transaction, User} = require("../../models");
+const {Transaction, User, Category} = require("../../models");
 const { createError } = require('../../helpers');
 
 const addTransaction = async (req, res) => {
     const { _id } = req.user;
-    const { value} = req.body;
+    const { value, categories: idCategory} = req.body;
     const { type } = req.params;
     const { balance } = await User.findById(_id);
     let newBalance, income;
@@ -18,9 +18,11 @@ const addTransaction = async (req, res) => {
     }
         else { 
         throw createError(404);
-    }}
+        }
+    }
+    const { title} = await Category.findById(idCategory);
     await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
-    const result = await Transaction.create({ ...req.body,income, owner: _id });
+    const result = await Transaction.create({ ...req.body,categories: title, income, owner: _id });
     res.json(result);
 }
 
