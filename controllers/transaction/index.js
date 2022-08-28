@@ -1,7 +1,9 @@
-const getIncome = require('./getIncome');
+const getTransaction = require('./getTransaction');
 const addTransaction = require('./addTransaction');
+const deleteTransaction = require('./deleteTransaction');
 
 module.exports = {
-    getIncome,
-    addTransaction
+    getTransaction,
+    addTransaction,
+    deleteTransaction
 }
