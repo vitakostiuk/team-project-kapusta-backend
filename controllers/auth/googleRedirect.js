@@ -2,6 +2,7 @@ const queryString = require("query-string");
 const axios = require("axios");
 
 const {User} = require('../../models');
+const { categories } = require('../../services');
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL, FRONTEND_URL } = process.env;
 
 const googleRedirect = async (req, res) => {
@@ -38,12 +39,12 @@ const googleRedirect = async (req, res) => {
   if (user) {
     await user.updateOne({token});
   } else {
-    console.log(userData.data);
-    await User.create({
+    const newUser = await User.create({
         email,
         token,
         avatarURL
     })
+    await categories.defaultUserCategories(newUser._id);
   }
 return res.redirect(`${FRONTEND_URL}?token=${token}`);
 };
