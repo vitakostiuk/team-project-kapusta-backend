@@ -14,6 +14,8 @@ router.get('/:type', user, ctrlWrapper(transactions.getTransaction));
 
 router.delete('/:transactionId', user, ctrlWrapper(transactions.deleteTransaction));
 
+router.get('/', user, ctrlWrapper(transactions.fullReportTrans));
+
 router.get('/reports/:type', user, ctrlWrapper(transactions.getSummaryTrans));
 
 module.exports = router;
