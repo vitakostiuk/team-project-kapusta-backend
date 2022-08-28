@@ -1,4 +1,3 @@
-const { Conflict } = require('http-errors');
 const gravatar = require('gravatar');
 const bcrypt = require('bcrypt');
 const { User } = require('../../models');
@@ -14,7 +13,7 @@ const register = async(req, res) => {
     const {email, password} = req.body;
     const user = await User.findOne({email});
     if (user) {
-        throw new Conflict('User with the same email address already exists')
+        throw createError(409, 'User with the same email address already exists')
     }
     const avatarURL = gravatar.url(email);
     const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -25,6 +24,8 @@ const register = async(req, res) => {
     await categories.defaultUserCategories(newUser._id);
     
     res.status(201).json({
+        status: 'success',
+        code: 201,
         user: {
             email,
             avatarURL
