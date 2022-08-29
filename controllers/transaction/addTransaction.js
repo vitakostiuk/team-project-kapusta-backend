@@ -1,33 +1,27 @@
-const {Transaction, User, Category} = require("../../models");
+const {transactions:services } = require('../../services');
 const { createError } = require('../../helpers');
 
 const addTransaction = async (req, res) => {
     const { _id } = req.user;
-    const { value, categories: idCategory} = req.body;
     const { type } = req.params;
-    const { balance } = await User.findById(_id);
+    const body = req.body;
+    
+    const result = await services.addTransaction({ _id, body, type });
 
-    let newBalance, income;
-
-    if (type === 'income') {
-        newBalance = balance + value;
-        income = true;
-    }
-    else {
-        if (type === 'expense') {
-        newBalance = balance - value;
-        income = false;
-    }
-        else { 
+    if (result === undefined) {
         throw createError(404);
-        }
     }
 
-    const { title } = await Category.findById(idCategory);
+    if (result === null) {
+        const message = 'You cannot create a transaction that exceeds the balance';
+        throw createError(409, message);
+    }
 
-    await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
-    const result = await Transaction.create({ ...req.body,categories: title, income, owner: _id });
-    res.json(result);
+    res.json({
+        status: 'success',
+        code: 200,
+        transactions: result,
+    });
 }
 
 module.exports = addTransaction;

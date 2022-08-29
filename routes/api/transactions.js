@@ -4,11 +4,13 @@ const {transactions} = require("../../controllers");
 
 const {ctrlWrapper} = require("../../helpers");
 
-const {user} = require("../../middlewares");
+const { validation, user } = require("../../middlewares");
+
+const {addTransSchema} = require('../../schemas');
 
 const router = express.Router();
 
-router.post('/:type', user, ctrlWrapper(transactions.addTransaction));
+router.post('/:type', user, validation(addTransSchema), ctrlWrapper(transactions.addTransaction));
 
 router.get('/:type', user, ctrlWrapper(transactions.getTransaction));
 
