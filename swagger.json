@@ -383,7 +383,9 @@
         "get": {
                 "tags": ["Transactions"],
                 "summary": "Full report transactions",
-                "parameters": [{"in": "query","name": "query", "description": "transaction period (month, year)" }],
+                "parameters": [
+                    {"in": "query","name": "month", "description": "transaction period (month)" },
+                    {"in": "query","name": "year", "description": "transaction period (year)" }],
                 "security": [{"Bearer": []}],
             "responses": {
                 "200": {
