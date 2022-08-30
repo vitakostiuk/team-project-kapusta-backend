@@ -20,4 +20,8 @@ router.get('/google-redirect', ctrlWrapper(auth.googleRedirect));
 
 router.get('/logout', user, ctrlWrapper(auth.logout));
 
+router.get('/verify/:verificationToken', ctrlWrapper(auth.verifyEmail));
+
+router.get('/verify', ctrlWrapper(auth.resendVerifyEmail));
+
 module.exports = router;
