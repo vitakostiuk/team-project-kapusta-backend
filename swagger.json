@@ -61,6 +61,10 @@
                 "409": {
                     "description": "Conflict (email already in use)",
                     "content": {}
+                },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
                 }
             }
         }
@@ -100,7 +104,11 @@
                     "401": {
                         "description": "Unauthorized (Email or password is wrong)",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
                 }
             }
             
@@ -118,24 +126,11 @@
                     "404": {
                         "description": "Not found",
                         "content": {}
-                    }
-                }
-            }
-    },
-    "/api/auth/google-redirect": {
-            "get": {
-                    "tags": ["Auth"],
-                    "summary": "Login with google",
-                    "parameters": [],
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {}
                     },
-                    "404": {
-                        "description": "Not found",
-                        "content": {}
-                    }
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
                 }
             }
     },
@@ -153,7 +148,11 @@
                     "401": {
                         "description": "Unauthorized",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
                 }
             }
             
@@ -170,7 +169,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#components/schemas/RegistrationResponse"
+                                "$ref": "#components/schemas/CurrentResponse"
                             }
                         }
                     }
@@ -182,7 +181,11 @@
                 "403": {
                         "description": "Forbidden",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
             }
         }
     },
@@ -221,7 +224,11 @@
                 "403": {
                         "description": "Forbidden",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
             }
         },
             "get": {
@@ -248,7 +255,232 @@
                 "403": {
                         "description": "Forbidden",
                         "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
+    "/api/transactions/:type": {
+            "post": {
+                "tags": ["Transactions"],
+                "summary": "Add transaction",
+                "parameters": [{"in": "path", "name": "type", "description": "Transaction type (income or expense)"}],
+                "security": [{"Bearer": []}],
+                "requestBody": {
+                    "description": "New transaction",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/TransactionRequest"
+                            }
+                        }
                     }
+                },
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/TransactionResponse"
+                            }
+                        }
+                    }
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "404": {
+                        "description": "Not found",
+                        "content": {}
+                    },
+                "409": {
+                        "description": "Conflict (the amount of the spending transaction exceeds the balance)",
+                        "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        },
+            "get": {
+                "tags": ["Transactions"],
+                "summary": "Get user`s transactions",
+                "parameters": [{"in": "path", "name": "type", "description": "Transaction type (income or expense)"}],
+
+                "security": [{"Bearer": []}],
+            "responses": {
+                "201": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array", 
+                                "items": {
+                                    "$ref": "#components/schemas/TransactionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "403": {
+                        "description": "Forbidden",
+                        "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
+    "/api/transactions/:transactionId": {
+            "delete": {
+                "tags": ["Transactions"],
+                "summary": "Delete transaction",
+                "parameters": [{"in": "path", "name": "transactionId"}],
+                "security": [{"Bearer": []}],
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties":  {
+                                    "message": "Transaction deleted"
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "404": {
+                        "description": "Not found",
+                        "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
+    "/api/transactions/": {
+        "get": {
+                "tags": ["Transactions"],
+                "summary": "Full report transactions",
+                "parameters": [{"in": "query","name": "query", "description": "transaction period (month, year)" }],
+                "security": [{"Bearer": []}],
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array", 
+                                "items": {
+                                    "$ref": "#components/schemas/TransactionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "404": {
+                        "description": "Not found",
+                        "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
+    "/api/transactions/reports/:type": {
+        "get": {
+                "tags": ["Transactions"],
+                "summary": "Get summary transactions",
+                "parameters": [{"in": "path", "name": "type", "description": "Transaction type (income or expense)"}],
+                "security": [{"Bearer": []}],
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array", 
+                                "items": {
+                                    "$ref": "#components/schemas/TransactionReportsResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "404": {
+                        "description": "Not found",
+                        "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
+    "/api/categories/": {
+        "get": {
+                "tags": ["Categories"],
+                "summary": "Get all categories",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array", 
+                                "items": {
+                                    "$ref": "#components/schemas/CategoryResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "404": {
+                        "description": "Not found",
+                        "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
             }
         }
     }
@@ -269,6 +501,32 @@
                         "type": "string",
                         "description": "User`s password",
                         "example": "qwerty123"
+                    }
+                }
+            },
+            "TransactionRequest": {
+                "type": "object",
+                "required": ["description", "categories", "value"],
+                "properties": {
+                    "date": {
+                        "type": "object",
+                        "description": "Date of operation",
+                        "example": "{day: '1', month: '1', year: '2022'}"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Transaction description",
+                        "example": "My transaction"
+                    },
+                    "categories": {
+                        "type": "string",
+                        "description": "Transaction category",
+                        "example": "sport"
+                    },
+                    "value": {
+                        "type": "integer",
+                        "description": "Transaction amount",
+                        "example": "1000"
                     }
                 }
             },
@@ -313,6 +571,26 @@
                     } 
                 }
             },
+            "CurrentResponse": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User`s email",
+                        "format": "email"
+                    },
+                    "avatarURL": {
+                        "type": "string",
+                        "description": "User`s avatar",
+                        "example": "//www.gravatar.com/avatar/783486a4f613f651086a4d"
+                    },
+                    "balance": {
+                        "type": "integer",
+                        "description": "User`s balance",
+                        "example": "10000"
+                    }
+                }
+            },
             "BalanceResponse": {
                 "type": "object",
                 "properties": {
@@ -341,6 +619,92 @@
                         "description": "User`s balance",
                         "example": "10000"
                     } 
+                }
+            },
+            "TransactionResponse": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "object",
+                        "description": "Date of operation",
+                        "example": "{day: '1', month: '1', year: '2022'}"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Transaction description",
+                        "example": "My transaction"
+                    },
+                    "categories": {
+                        "type": "string",
+                        "description": "Transaction category",
+                        "example": "sport"
+                    },
+                    "value": {
+                        "type": "integer",
+                        "description": "Transaction amount",
+                        "example": "1000"
+                    },
+                    "income": {
+                        "type": "boolean",
+                        "description": "Transaction type (income or expense)",
+                        "example": "true"
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "Transaction owner id",
+                        "example": "a1s2d3f4g5h6j7k8l8"
+                    }
+                }
+            }, 
+            "TransactionReportsResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "object",
+                        "properties": {
+                            "month": {
+                                "type": "string",
+                                "example": "1"
+                            },
+                            "year": {
+                                "type": "string",
+                                "example": "2022"
+                            },
+                            "income": {
+                                "type": "boolean",
+                                "example": "true"
+                            }
+                        }
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": "10000"
+                    }
+                }
+            },
+            "CategoryResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Id category",
+                        "example": "z1x2c3v4b543v3232"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Category title",
+                        "example": "Sport"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Category type",
+                        "example": "expences"
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "Category owner id",
+                        "example": "a1s2d3f4g5h6j7k8l8"
+                    }
                 }
             }
         },
