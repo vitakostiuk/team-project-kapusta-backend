@@ -61,6 +61,10 @@
                 "409": {
                     "description": "Conflict (email already in use)",
                     "content": {}
+                },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
                 }
             }
         }
@@ -100,7 +104,11 @@
                     "401": {
                         "description": "Unauthorized (Email or password is wrong)",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
                 }
             }
             
@@ -118,24 +126,11 @@
                     "404": {
                         "description": "Not found",
                         "content": {}
-                    }
-                }
-            }
-    },
-    "/api/auth/google-redirect": {
-            "get": {
-                    "tags": ["Auth"],
-                    "summary": "Login with google",
-                    "parameters": [],
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {}
                     },
-                    "404": {
-                        "description": "Not found",
-                        "content": {}
-                    }
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
                 }
             }
     },
@@ -153,7 +148,11 @@
                     "401": {
                         "description": "Unauthorized",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
                 }
             }
             
@@ -170,7 +169,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#components/schemas/RegistrationResponse"
+                                "$ref": "#components/schemas/CurrentResponse"
                             }
                         }
                     }
@@ -182,7 +181,11 @@
                 "403": {
                         "description": "Forbidden",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
             }
         }
     },
@@ -221,7 +224,11 @@
                 "403": {
                         "description": "Forbidden",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
             }
         },
             "get": {
@@ -248,7 +255,11 @@
                 "403": {
                         "description": "Forbidden",
                         "content": {}
-                    }
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
             }
         }
     }
@@ -311,6 +322,26 @@
                         "description": "Token",
                         "example": "q1w2e3r4t5y6u7i8o9p0"
                     } 
+                }
+            },
+            "CurrentResponse": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User`s email",
+                        "format": "email"
+                    },
+                    "avatarURL": {
+                        "type": "string",
+                        "description": "User`s avatar",
+                        "example": "//www.gravatar.com/avatar/783486a4f613f651086a4d"
+                    },
+                    "balance": {
+                        "type": "integer",
+                        "description": "User`s balance",
+                        "example": "10000"
+                    }
                 }
             },
             "BalanceResponse": {
