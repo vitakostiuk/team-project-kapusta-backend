@@ -357,7 +357,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "properties":  {
+                                "example":  {
                                     "message": "Transaction deleted"
                                 }
                             }
@@ -377,6 +377,7 @@
                     "content": {}
                 }
             }
+
         }
     },
     "/api/transactions/": {
