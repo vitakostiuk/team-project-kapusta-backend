@@ -162,7 +162,6 @@
                     "tags": ["Auth"],
                     "summary": "Resend verification email",
                     "parameters": [{"in": "path", "name": "verificationToken", "required": "true"}],
-                    "security": [{"Bearer": []}],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -185,7 +184,6 @@
                     "tags": ["Auth"],
                     "summary": "Verification email",
                     "parameters": [],
-                    "security": [{"Bearer": []}],
                     "requestBody": {
                         "description": "User`s email",
                         "required": true,
