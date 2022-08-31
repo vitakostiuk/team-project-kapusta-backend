@@ -157,6 +157,84 @@
             }
             
     },
+        "/api/auth/verify/{verificationToken}": {
+                "get": {
+                    "tags": ["Auth"],
+                    "summary": "Resend verification email",
+                    "parameters": [{"in": "path", "name": "verificationToken", "required": "true"}],
+                    "security": [{"Bearer": []}],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {}
+                    }
+                }
+            }
+            
+    },
+        "/api/auth/verify": {
+                "get": {
+                    "tags": ["Auth"],
+                    "summary": "Verification email",
+                    "parameters": [],
+                    "security": [{"Bearer": []}],
+                    "requestBody": {
+                        "description": "User`s email",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": ["email"],
+                                    "properties": {
+                                        "email": {
+                                            "type": "string",
+                                            "description": "User`s email",
+                                            "format": "email"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example":  {
+                                        "message": "Verification email sent"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Verification has already been passed",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {}
+                    }
+                }
+            }
+            
+    },
     "/api/users/current": {
             "get": {
                 "tags": ["Users"],
@@ -263,11 +341,11 @@
             }
         }
     },
-    "/api/transactions/:type": {
+    "/api/transactions/{type}": {
             "post": {
                 "tags": ["Transactions"],
                 "summary": "Add transaction",
-                "parameters": [{"in": "path", "name": "type", "description": "Transaction type (income or expense)"}],
+                "parameters": [{"in": "path", "name": "type", "description": "Transaction type (income or expense)", "required": "true"}],
                 "security": [{"Bearer": []}],
                 "requestBody": {
                     "description": "New transaction",
@@ -344,11 +422,11 @@
             }
         }
     },
-    "/api/transactions/:transactionId": {
+    "/api/transactions/{transactionId}": {
             "delete": {
                 "tags": ["Transactions"],
                 "summary": "Delete transaction",
-                "parameters": [{"in": "path", "name": "transactionId"}],
+                "parameters": [{"in": "path", "name": "transactionId", "required": "true"}],
                 "security": [{"Bearer": []}],
             "responses": {
                 "200": {
@@ -357,7 +435,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "properties":  {
+                                "example":  {
                                     "message": "Transaction deleted"
                                 }
                             }
@@ -377,6 +455,7 @@
                     "content": {}
                 }
             }
+
         }
     },
     "/api/transactions/": {
@@ -416,11 +495,11 @@
             }
         }
     },
-    "/api/transactions/reports/:type": {
+    "/api/transactions/reports/{type}": {
         "get": {
                 "tags": ["Transactions"],
                 "summary": "Get summary transactions",
-                "parameters": [{"in": "path", "name": "type", "description": "Transaction type (income or expense)"}],
+                "parameters": [{"in": "path", "name": "type", "description": "Transaction type (income or expense)", "required": "true"}],
                 "security": [{"Bearer": []}],
             "responses": {
                 "200": {
