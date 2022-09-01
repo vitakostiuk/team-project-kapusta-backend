@@ -2,6 +2,8 @@ const { User } = require('../../models');
 const { verificationSchema } = require('../../schemas');
 const { createError, sendEmail } = require('../../helpers');
 
+const { BASE_URL } = process.env;
+
 const resendVerifyEmail = async (req, res) => {
     const {email} = req.body;
     const {error} = verificationSchema.validate({email});
@@ -20,7 +22,7 @@ const resendVerifyEmail = async (req, res) => {
     const mail = {
         to: email,
         subject: "Mail confirmation",
-        html: `<a target="_blank" href='http://localhost:3000/api/auth/verify/${user.verificationToken}'>Confirm email</a>`
+        html: `<a target="_blank" href='${BASE_URL}/api/auth/verify/${user.verificationToken}'>Confirm email</a>`
     }
 
     await sendEmail(mail);

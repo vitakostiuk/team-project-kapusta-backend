@@ -6,6 +6,8 @@ const { registerSchema } = require('../../schemas');
 const { categories } = require('../../services');
 const { v4 } = require('uuid');
 
+const { BASE_URL } = process.env;
+
 const register = async(req, res) => {
     const {error} = registerSchema.validate(req.body);
     if (error) {
@@ -28,7 +30,7 @@ const register = async(req, res) => {
     const mail = {
         to: email,
         subject: "Mail confirmation",
-        html: `<a target="_blank" href='http://localhost:3000/api/auth/verify/${verificationToken}'>Confirm email</a>`
+        html: `<a target="_blank" href='${BASE_URL}/api/auth/verify/${verificationToken}'>Confirm email</a>`
     }
 
     await sendEmail(mail);
