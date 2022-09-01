@@ -38,10 +38,7 @@ const register = async(req, res) => {
     res.status(201).json({
         status: 'success',
         code: 201,
-        user: {
-            email,
-            avatarURL
-        }
+        message: `A letter has been sent to this email address: ${email}. Please confirm the email`
     });
 }
 
