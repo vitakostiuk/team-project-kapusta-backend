@@ -1,15 +1,15 @@
 const Joi = require('joi');
 
 const addTransSchema = Joi.object({
-    data: Joi.object({
-        date: Joi.string(),
+    date: Joi.object({
+        day: Joi.string(),
         month: Joi.string(),
         year: Joi.string()
     }),
     description: Joi.string().required(),
     categories: Joi.string(),
     value: Joi.number().required(),
-    income: Joi.boolean().required()
+    income: Joi.boolean()
 })
 
 module.exports = addTransSchema;
