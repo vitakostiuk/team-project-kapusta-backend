@@ -30,20 +30,46 @@ const getSummaryTrans = tryCatchWrapper(async ({userId, type}) => {
         },
         {
             $project: {
-                _id: 1,
-                income: 1,
-                total: 1
+                month: {$toInt: '$_id.month'},
+                year: {$toInt: '$_id.year'},
+                income: '$_id.income',
+                total: '$total',
+                _id: 0
             },
         },
         {
             $sort: {
-                'date.month': 1
+                month: -1
             }
+        },
+        {
+            $limit: 6 
         }
     ]);
 
     if (!transactions) {
         return null;
+    }
+
+    // console.log(transactions);
+
+    if (transactions.length < 6) {
+
+        let newMonth = 0;
+        const newTrans = [];
+
+        const { month: maxMonth, year } = transactions.reduce((prev, cur) => cur.month > prev.month ? cur : prev);
+
+        for (let i = 0; i < (6 - transactions.length); i += 1){
+            newMonth = (maxMonth - transactions.length) - i;
+
+            newTrans.push({month: newMonth, year, income, total: 0});
+        }
+
+        const result = [...transactions, ...newTrans];
+
+        return result;
+
     }
 
     return transactions;
