@@ -22,21 +22,40 @@ const fullReportTrans = tryCatchWrapper(async ({userId, month, year}) => {
             }
         },
         {
-            $group: {
-                _id: '$_id.categories',
-                data: {
-                    $push: {
-                        type: '$_id.income',
-                        description: '$_id.description',
-                        value: '$_id.value',
-                    }
-                },
-                summary: { $sum: '$_id.value' }
+            $project: {
+                income: '$_id.income',
+                categories: '$_id.categories',
+                description: '$_id.description',
+                value: '$_id.value'
             }
         },
         {
             $group: {
-                _id: { $first: '$data.type' },
+                _id: {
+                    income: '$income',
+                    categories: '$categories'
+                },
+                data: {
+                    $push: {
+                        description: '$description',
+                        value: '$value',
+                    }
+                },
+                summary: { $sum: '$value' }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                categories: '$_id.categories',
+                data: '$data',
+                bool: '$_id.income',
+                summary: '$summary'
+            }
+        },
+        {
+            $group: {
+                _id: '$bool',
                 reports: {
                     $push: '$$ROOT'
                 },
@@ -45,12 +64,11 @@ const fullReportTrans = tryCatchWrapper(async ({userId, month, year}) => {
         },
         {
             $project: {
-                _id: {
-                    income: '$_id',
-                },
-                reports: 1,
-                total: 1
-            },
+                _id: 0,
+                income: '$_id',
+                reports: '$reports',
+                total: '$total'
+            }
         }
     ]);
 
