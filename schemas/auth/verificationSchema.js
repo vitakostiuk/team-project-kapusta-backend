@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const varificationSchema = Joi.object({
+const verificationSchema = Joi.object({
     email: Joi.string().regex(/^[^-\W][\w.-]+@\w+\.\w+$/).email().min(10).max(63).required().messages({
         "string.base": "Sorry! It looks like something went wrong. Please try later.",
         "string.pattern.base": "Please fill a valid email address",
@@ -10,4 +10,4 @@ const varificationSchema = Joi.object({
     }),
 })
 
-module.exports = varificationSchema;
+module.exports = verificationSchema;
