@@ -1,6 +1,6 @@
 const registerSchema = require('./registerSchema');
 const loginSchema = require('./loginSchema');
-const verificationSchema = require('./varificationSchema');
+const verificationSchema = require('./verificationSchema');
 
 module.exports = {
     registerSchema,
