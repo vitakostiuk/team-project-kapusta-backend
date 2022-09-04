@@ -70,6 +70,8 @@ const getSummaryTrans = tryCatchWrapper(async ({userId, type}) => {
         let newMonth = 0;
         const newTrans = [];
 
+        console.log(transactions);
+
         const { month: maxMonth, year } = transactions.reduce((prev, cur) => cur.month > prev.month ? cur : prev);
 
         for (let i = 0; i < (6 - transactions.length); i += 1){
