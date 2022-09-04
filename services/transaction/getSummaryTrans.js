@@ -7,7 +7,7 @@ const getSummaryTrans = tryCatchWrapper(async ({userId, type}) => {
     if (type === 'income') {
         income = true;
     }
-    else if(type === 'expense'){
+    else if(type === 'expenses'){
         income = false;
     }
 
