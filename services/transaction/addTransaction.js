@@ -6,14 +6,15 @@ const addTransaction = tryCatchWrapper(async ({ _id, body, type }) => {
     const { value, categories: idCategory } = body;
 
     let newBalance, income;
+    const floatValue = Number(value.toFixed(2));
 
     switch (type){
         case 'income':
-            newBalance = balance + value;
+            newBalance = balance + floatValue;
             income = true;
             break;
         case 'expense':
-            newBalance = balance - value;
+            newBalance = balance - floatValue;
             income = false;
             break;
         default:
@@ -26,9 +27,9 @@ const addTransaction = tryCatchWrapper(async ({ _id, body, type }) => {
 
     const { title } = await Category.findById(idCategory);
 
-    await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
+    await User.findByIdAndUpdate(_id, { balance: newBalance.toFixed(2) }, { new: true });
 
-    const transaction = await Transaction.create({ ...body, categories: title, income, owner: _id });
+    const transaction = await Transaction.create({ ...body, categories: title, value: floatValue, income, owner: _id });
 
     return transaction;
 });

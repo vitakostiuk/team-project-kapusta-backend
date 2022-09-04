@@ -20,7 +20,7 @@ const deleteTransaction = tryCatchWrapper(async ({userId, transactionId}) => {
         newBalance = balance + value;
     }
 
-    await User.findByIdAndUpdate(userId, { balance: newBalance }, { new: true });
+    await User.findByIdAndUpdate(userId, { balance: newBalance.toFixed(2) }, { new: true });
     
     const data = await Transaction.findByIdAndRemove(transactionId);
 
