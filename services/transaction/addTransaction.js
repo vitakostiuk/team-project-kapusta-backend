@@ -6,7 +6,8 @@ const addTransaction = tryCatchWrapper(async ({ _id, body, type }) => {
     const { value, categories: idCategory } = body;
 
     let newBalance, income;
-    const floatValue = Number(value.toFixed(2));
+    const valueToNumber = Number(value);
+    const floatValue = valueToNumber.toFixed(2);
 
     switch (type){
         case 'income':
