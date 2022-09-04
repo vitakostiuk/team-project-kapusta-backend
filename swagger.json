@@ -49,7 +49,10 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#components/schemas/RegistrationResponse"
+                                "type": "object",
+                                "example":  {
+                                    "message": "A letter has been sent to this email address: user_email@example.com. Please confirm the email"
+                                }
                             }
                         }
                     }
@@ -599,8 +602,8 @@
                     },
                     "categories": {
                         "type": "string",
-                        "description": "Transaction category",
-                        "example": "sport"
+                        "description": "Transaction category id",
+                        "example": "b1nm4354n4n23n342"
                     },
                     "value": {
                         "type": "integer",
@@ -620,21 +623,7 @@
                     }
                 }
             },
-            "RegistrationResponse": {
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "description": "User`s email",
-                        "format": "email"
-                    },
-                    "avatarURL": {
-                        "type": "string",
-                        "description": "User`s avatar",
-                        "example": "//www.gravatar.com/avatar/783486a4f613f651086a4d"
-                    } 
-                }
-            },
+            
             "LoginResponse": {
                 "type": "object",
                 "properties": {
