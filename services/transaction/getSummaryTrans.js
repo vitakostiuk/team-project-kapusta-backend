@@ -58,8 +58,9 @@ const getSummaryTrans = tryCatchWrapper(async ({userId, type}) => {
 
         for (let i = 0; i < (6 - transactions.length); i += 1){
             newMonth = month - i;
+            const monthName = new Date(2000, newMonth - 1, 1).toLocaleDateString('en-US', { month: 'long' });
 
-            result.push({month: newMonth, year, income, total: 0});
+            result.push({monthName, month: newMonth, year, income, total: 0});
         }
 
         return result;
@@ -69,18 +70,29 @@ const getSummaryTrans = tryCatchWrapper(async ({userId, type}) => {
 
         let newMonth = 0;
         const newTrans = [];
-
-        console.log(transactions);
+        const mutationTrans = [];
 
         const { month: maxMonth, year } = transactions.reduce((prev, cur) => cur.month > prev.month ? cur : prev);
 
         for (let i = 0; i < (6 - transactions.length); i += 1){
+
             newMonth = (maxMonth - transactions.length) - i;
 
-            newTrans.push({month: newMonth, year, income, total: 0});
+            const monthName = new Date(2000, newMonth - 1, 1).toLocaleDateString('en-US', { month: 'long' });
+
+            newTrans.push({monthName, month: newMonth, year, income, total: 0});
         }
 
-        const result = [...transactions, ...newTrans];
+        for (let i = 0; i < transactions.length; i += 1){
+
+            const monthName = new Date(2000, (maxMonth - i) - 1 , 1).toLocaleDateString('en-US', { month: 'long' });
+
+            const summaryObj = { monthName, ...transactions[i] };
+
+            mutationTrans.push(summaryObj);
+        }
+        
+        const result = [...mutationTrans, ...newTrans];
 
         return result;
 
