@@ -2,7 +2,7 @@ const { Transaction, User } = require('../../models');
 const { tryCatchWrapper } = require('../../helpers');
 
 const deleteTransaction = tryCatchWrapper(async ({userId, transactionId}) => {
-    let newBalance;
+    let newBalance, calculatedValue;
 
     const transaction = await Transaction.findById(transactionId);
 
@@ -15,12 +15,14 @@ const deleteTransaction = tryCatchWrapper(async ({userId, transactionId}) => {
     const { value, income } = transaction;
 
     if (income) {
-        newBalance = balance - value;
+        calculatedValue = balance - value;
+        newBalance = calculatedValue.toFixed(2);
     } else {
-        newBalance = balance + value;
+        calculatedValue = balance + value;
+        newBalance = calculatedValue.toFixed(2);
     }
 
-    await User.findByIdAndUpdate(userId, { balance: newBalance.toFixed(2) }, { new: true });
+    await User.findByIdAndUpdate(userId, { balance: newBalance }, { new: true });
     
     const data = await Transaction.findByIdAndRemove(transactionId);
 
