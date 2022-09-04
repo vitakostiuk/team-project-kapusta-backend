@@ -8,11 +8,11 @@ const registerSchema = Joi.object({
         "string.min": "Email length must be at least 10 characters long",
         "string.email": "Please fill a valid email address"
     }),
-    password: Joi.string().regex(/^[a-zA-Z0-9]+$/).min(1).max(51).required().messages({
+    password: Joi.string().regex(/^[a-zA-Z0-9]+$/).min(8).max(51).required().messages({
         "string.base": "Sorry! It looks like something went wrong. Please try later.",
-        "string.pattern.base": "Password must contain 1 to 51 letters or numbers",
+        "string.pattern.base": "Password must contain 8 to 51 letters or numbers",
         "string.empty": "Password is not allowed to be empty",
-        "string.min": "Email length must be at least 1 characters long",
+        "string.min": "Email length must be at least 8 characters long",
         "string.max": "Password length must be less than or equal to 51 characters long",
     }),
 })
