@@ -8,6 +8,11 @@ const getTransaction = async (req, res, next) => {
 
     const result = await services.getTransaction({ userId, type, day, month, year });
 
+    if (result.length === 0) {
+        const message = `Sorry, but you don't have any transactions for the selected period: ${day}.${month}.${year}`;
+        throw createError(404, message);
+    }
+
     if (!result) {
         throw createError(404);
     }

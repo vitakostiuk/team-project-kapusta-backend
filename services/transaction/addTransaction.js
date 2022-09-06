@@ -11,21 +11,6 @@ const addTransaction = tryCatchWrapper(async ({ _id, body, type }) => {
   const valueToNumber = Number(value);
   const floatValue = valueToNumber.toFixed(2);
 
-  // switch (type) {
-  //   case "income":
-  //     calculatedValue = balance + Number(floatValue);
-  //     newBalance = calculatedValue.toFixed(2);
-  //     income = true;
-  //     break;
-  //   case "expense":
-  //     calculatedValue = balance - Number(floatValue);
-  //     newBalance = calculatedValue.toFixed(2);
-  //     income = false;
-  //     break;
-  //   default:
-  //     return;
-  // }
-
   if (type === 'income' && typeCat === 'income') {
     calculatedValue = balance + Number(floatValue);
     newBalance = calculatedValue.toFixed(2);
@@ -34,7 +19,7 @@ const addTransaction = tryCatchWrapper(async ({ _id, body, type }) => {
   } else if (type === 'expense' && typeCat === 'expenses') {
     calculatedValue = balance - Number(floatValue);
     newBalance = calculatedValue.toFixed(2);
-    income = true;
+    income = false;
     titleCat = title;
   } else {
     return;
@@ -43,7 +28,6 @@ const addTransaction = tryCatchWrapper(async ({ _id, body, type }) => {
   if (newBalance < 0) {
     return null;
   }
-
 
   await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
 
