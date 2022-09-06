@@ -23,7 +23,7 @@ const customValueValidation = (value, helpers) => {
 }
 
 const customDescriptionValidation = (value, helpers) => {
-    const regEx = /^[A-Za-z0-9а-яА-ЯёЁ_ -]*$/;
+    const regEx = /^[A-Za-z0-9а-яА-ЯёЁа-щА-ЩЬьЮюЯяЇїІіЄєҐґ'_ -]*$/;
 
     if(!regEx.test(value)) return helpers.message("Description must not contain special characters");
 }
