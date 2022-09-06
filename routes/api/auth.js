@@ -24,6 +24,6 @@ router.get('/verify/:verificationToken', ctrlWrapper(auth.verifyEmail));
 
 router.get('/verify', ctrlWrapper(auth.resendVerifyEmail));
 
-router.post('/forgot-password', ctrlWrapper(auth.sendPassword));
+router.patch('/forgot-password', ctrlWrapper(auth.sendPassword));
 
 module.exports = router;
