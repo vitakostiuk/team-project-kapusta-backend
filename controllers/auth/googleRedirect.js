@@ -46,7 +46,7 @@ const googleRedirect = async (req, res) => {
     })
     await categories.defaultUserCategories(newUser._id);
   }
-return res.redirect(`${FRONTEND_URL}?token=${token}`);
+return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}`);
 };
 
 module.exports = googleRedirect;
