@@ -4,15 +4,13 @@ const {auth} = require("../../controllers");
 
 const {ctrlWrapper} = require("../../helpers");
 
-const {validation, user} = require("../../middlewares");
-
-const {registerSchema, loginSchema} = require('../../schemas');
+const {user} = require("../../middlewares");
 
 const router = express.Router();
 
-router.post('/register', validation(registerSchema), ctrlWrapper(auth.register));
+router.post('/register', ctrlWrapper(auth.register));
 
-router.post('/login', validation(loginSchema), ctrlWrapper(auth.login));
+router.post('/login', ctrlWrapper(auth.login));
 
 router.get('/google', ctrlWrapper(auth.googleAuth));
 
