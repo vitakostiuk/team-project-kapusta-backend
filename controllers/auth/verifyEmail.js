@@ -12,6 +12,8 @@ const verifyEmail = async (req, res) => {
         throw createError(404);
     }
 
+    const {email} = user;
+
     const payload = {
         id: user._id
     };
@@ -19,7 +21,7 @@ const verifyEmail = async (req, res) => {
 
     await user.updateOne({token, verify: true, verificationToken: null});
     
-    return res.redirect(`${FRONTEND_URL}?token=${token}`);
+    return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}`);
 }
 
 module.exports = verifyEmail;
