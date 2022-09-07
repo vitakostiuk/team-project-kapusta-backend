@@ -14,10 +14,6 @@ const userSchema = Schema(
       type: String,
       default: null,
     },
-    avatarURL: {
-      type: String,
-      required: true,
-    },
     balance: {
       type: Number,
       default: 0

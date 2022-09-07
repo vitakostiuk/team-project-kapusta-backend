@@ -31,7 +31,7 @@ const googleRedirect = async (req, res) => {
     }
   });
 
-  const {email, picture: avatarURL} = userData.data;
+  const {email} = userData.data;
   const {access_token: token} = tokenData.data;
 
   const user = await User.findOne({email});
@@ -41,8 +41,7 @@ const googleRedirect = async (req, res) => {
   } else {
     const newUser = await User.create({
         email,
-        token,
-        avatarURL
+        token
     })
     await categories.defaultUserCategories(newUser._id);
   }
