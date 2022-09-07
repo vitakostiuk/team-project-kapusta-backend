@@ -14,12 +14,12 @@ const customYearValidation = (value, helpers) => {
 
 const customValueValidation = (value, helpers) => {
     if (typeof value !== 'number') return helpers.message("Value must be a number");
-
-    if (value.toString().length >= 11) return helpers.message("Value length should not exceed 9 numbers");
     
     if (Math.sign(value) === -1) return helpers.message("Value must be positive");
 
     if (value === 0) return helpers.message("Value must be must greater than 0");
+
+    if(value.toString().length === 1) return helpers.message("Value must be greater than 1 symbol");
 }
 
 const customDescriptionValidation = (value, helpers) => {
