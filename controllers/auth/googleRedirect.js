@@ -31,21 +31,22 @@ const googleRedirect = async (req, res) => {
     }
   });
 
-  const {email} = userData.data;
+  const {email, picture: avatarURL} = userData.data;
   const {access_token: token} = tokenData.data;
 
   const user = await User.findOne({email});
 
   if (user) {
-    await user.updateOne({token});
+    await user.updateOne({token, avatarURL});
   } else {
     const newUser = await User.create({
         email,
-        token
+        token,
+        avatarURL
     })
     await categories.defaultUserCategories(newUser._id);
   }
-return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}`);
+return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}&avatarURL=${avatarURL}`);
 };
 
 module.exports = googleRedirect;
