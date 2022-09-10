@@ -1,5 +1,4 @@
 const {transactions:services } = require('../../services');
-const { createError } = require('../../helpers');
 
 const getTransaction = async (req, res, next) => {
     const { _id: userId } = req.user;
@@ -10,11 +9,20 @@ const getTransaction = async (req, res, next) => {
 
     if (result.length === 0) {
         const message = `Sorry, but you don't have any transactions for the selected period: ${day}.${month}.${year}`;
-        throw createError(404, message);
+
+        res.json({
+            status: 'error',
+            code: 404,
+            message
+        })
     }
 
     if (!result) {
-        throw createError(404);
+        res.json({
+            status: 'error',
+            code: 404,
+            message: 'Not found'
+        })
     }
 
     res.json({
