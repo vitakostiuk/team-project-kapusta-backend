@@ -1,4 +1,3 @@
-const gravatar = require('gravatar');
 const bcrypt = require('bcrypt');
 const { User } = require('../../models');
 const {createError, sendEmail, sendEmailTemplate} = require('../../helpers');
@@ -17,10 +16,9 @@ const register = async(req, res) => {
         throw createError(409, 'User with the same email address already exists')
     }
     const verificationToken = v4();
-    const avatarURL = gravatar.url(email);
     const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-    const newUser = new User({ email, password: hashPassword, avatarURL, verificationToken });
+    const newUser = new User({ email, password: hashPassword, verificationToken });
     await newUser.save();
 
     await categories.defaultUserCategories(newUser._id);
