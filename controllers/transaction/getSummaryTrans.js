@@ -1,5 +1,4 @@
 const {transactions:services } = require('../../services');
-const { createError } = require('../../helpers');
 
 const getSummaryTrans = async (req, res, next) => {
     const { _id: userId } = req.user;
@@ -8,7 +7,11 @@ const getSummaryTrans = async (req, res, next) => {
     const result = await services.getSummaryTrans({ userId, type });
 
     if (!result) {
-        throw createError(404);
+        res.json({
+            status: 'error',
+            code: 404,
+            message: 'Summary is empty 👻',
+        });
     }
 
     res.json({
