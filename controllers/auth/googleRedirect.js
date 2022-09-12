@@ -10,7 +10,6 @@ const googleRedirect = async (req, res) => {
   const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
   const urlObj = new URL(fullUrl);
   const urlParams = queryString.parse(urlObj.search);
-  let token;
 
   const { code } = urlParams;
     const tokenData = await axios({
@@ -35,26 +34,22 @@ const googleRedirect = async (req, res) => {
 
   const {email, picture: avatarURL} = userData.data;
 
-  const user = await User.findOne({email});
+  let user = await User.findOne({email});
 
-  if (user) {
-    const payload = {
-      id: user._id
-  };
-  token = jwt.sign(payload, SECRET_KEY, {expiresIn: '12h'});
-  await user.updateOne({token, avatarURL});
-  } else {
-    const newUser = await User.create({email, avatarURL})
-    await categories.defaultUserCategories(newUser._id);
-    const payload = {
-      id: newUser._id
-    };
-    token = jwt.sign(payload, SECRET_KEY, {expiresIn: '12h'});
-    await newUser.updateOne({token});
+  if (!user) {
+    user = await User.create({email, verificationToken: null, verify: true})
+    await categories.defaultUserCategories(user._id);  
   }
+  
+  const payload = {
+    id: user._id
+  }
+  const token = jwt.sign(payload, SECRET_KEY, {expiresIn: '12h'});
+  await user.updateOne({token, avatarURL});
+  
+  const {createdAt} = user;
 
-
-return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}&avatarURL=${avatarURL}`);
+return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}&createdAt=${createdAt}&avatarURL=${avatarURL}`);
 };
 
 module.exports = googleRedirect;
