@@ -236,6 +236,56 @@
             }
             
     },
+    "/api/auth/forgot-password": {
+            "patch": {
+                "tags": ["Auth"],
+                "summary": "Forgot password",
+                "parameters": [],
+                
+                "requestBody": {
+                    "description": "User`s email",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["email"],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "description": "User`s email",
+                                        "format": "email"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            "responses": {
+                "201": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example":  {
+                                    "message": "New password sent to user_email@example.com email address"
+                                }
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Bad Request (invalid request body)",
+                    "content": {}
+                },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
     "/api/users/current": {
             "get": {
                 "tags": ["Users"],
@@ -333,6 +383,41 @@
                 },
                 "403": {
                         "description": "Forbidden",
+                        "content": {}
+                    },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
+    "/api/transactions/dates": {
+        "get": {
+                "tags": ["Transactions"],
+                "summary": "Get dates",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array", 
+                                "items": {
+                                    "$ref": "#components/schemas/DatesResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "404": {
+                        "description": "Not found",
                         "content": {}
                     },
                 "500": {
@@ -689,6 +774,25 @@
                     } 
                 }
             },
+            "DatesResponse": {
+                "type": "object",
+                "properties": {
+                    "income": {
+                        "type": "boolean",
+                        "description": "Transaction type (income or expense)",
+                        "example": "false"
+                    },
+                    "data": {
+                        "type": "array",
+                        "description": "Date array",
+                        "items": {
+                            "type": "object",
+                            "description": "Date of operation",
+                            "example": "{day: '1', month: '1', year: '2022'}, {day: '2', month: '2', year: '2022'}"
+                        }
+                    }
+                }
+            }, 
             "TransactionResponse": {
                 "type": "object",
                 "properties": {
