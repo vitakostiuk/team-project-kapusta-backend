@@ -37,7 +37,7 @@ const googleRedirect = async (req, res) => {
   let user = await User.findOne({email});
 
   if (!user) {
-    user = await User.create({email, verificationToken: null, verify: true})
+    user = await User.create({email, avatarURL, verificationToken: null, verify: true})
     await categories.defaultUserCategories(user._id);  
   }
   
@@ -45,11 +45,10 @@ const googleRedirect = async (req, res) => {
     id: user._id
   }
   const token = jwt.sign(payload, SECRET_KEY, {expiresIn: '12h'});
-  await user.updateOne({token, avatarURL});
+  await user.updateOne({token});
   
   const {createdAt} = user;
-
-return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}&createdAt=${createdAt}&avatarURL=${avatarURL}`);
+  return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}&createdAt=${createdAt}&avatarURL=${avatarURL}`);
 };
 
 module.exports = googleRedirect;
