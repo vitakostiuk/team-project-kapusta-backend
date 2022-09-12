@@ -12,6 +12,8 @@ const router = express.Router();
 
 router.get('/dates', user, ctrlWrapper(transactions.getTransactionsDates));
 
+router.get('/mobile', user, ctrlWrapper(transactions.getTransactionsMob));
+
 router.post('/:type', user, validation(addTransSchema), ctrlWrapper(transactions.addTransaction));
 
 router.get('/:type', user, ctrlWrapper(transactions.getTransaction));

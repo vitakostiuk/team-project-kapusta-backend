@@ -1,11 +1,10 @@
 const {transactions:services } = require('../../services');
 
-const getTransaction = async (req, res, next) => {
+const getTransactionsMob = async (req, res, next) => {
     const { _id: userId } = req.user;
-    const { type } = req.params;
     const { day, month, year } = req.query;
 
-    const result = await services.getTransaction({ userId, type, day, month, year });
+    const result = await services.getTransactionsMob({ userId, day, month, year });
 
     if (result.length === 0) {
         const message = `Sorry, but you don't have any transactions for the selected period: ${day}.${month}.${year} 😿`;
@@ -32,4 +31,4 @@ const getTransaction = async (req, res, next) => {
     });
 }
 
-module.exports = getTransaction;
+module.exports = getTransactionsMob;

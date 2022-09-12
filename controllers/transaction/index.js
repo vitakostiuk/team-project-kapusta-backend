@@ -4,6 +4,7 @@ const deleteTransaction = require('./deleteTransaction');
 const getSummaryTrans = require('./getSummaryTrans');
 const fullReportTrans = require('./fullReportTrans');
 const getTransactionsDates = require('./getTransactionsDates');
+const getTransactionsMob = require('./getTransactionsMob');
 
 module.exports = {
     getTransaction,
@@ -11,5 +12,6 @@ module.exports = {
     deleteTransaction,
     getSummaryTrans,
     fullReportTrans,
-    getTransactionsDates
+    getTransactionsDates,
+    getTransactionsMob
 }
