@@ -1,14 +1,16 @@
 const queryString = require("query-string");
 const axios = require("axios");
+const jwt = require('jsonwebtoken');
 
 const {User} = require('../../models');
 const { categories } = require('../../services');
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL, FRONTEND_URL } = process.env;
+const { SECRET_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL, FRONTEND_URL } = process.env;
 
 const googleRedirect = async (req, res) => {
   const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
   const urlObj = new URL(fullUrl);
   const urlParams = queryString.parse(urlObj.search);
+  let token;
 
   const { code } = urlParams;
     const tokenData = await axios({
@@ -32,20 +34,26 @@ const googleRedirect = async (req, res) => {
   });
 
   const {email, picture: avatarURL} = userData.data;
-  const {access_token: token} = tokenData.data;
 
   const user = await User.findOne({email});
 
   if (user) {
-    await user.updateOne({token, avatarURL});
+    const payload = {
+      id: user._id
+  };
+  token = jwt.sign(payload, SECRET_KEY, {expiresIn: '12h'});
+  await user.updateOne({token, avatarURL});
   } else {
-    const newUser = await User.create({
-        email,
-        token,
-        avatarURL
-    })
+    const newUser = await User.create({email, avatarURL})
     await categories.defaultUserCategories(newUser._id);
+    const payload = {
+      id: newUser._id
+    };
+    token = jwt.sign(payload, SECRET_KEY, {expiresIn: '12h'});
+    await newUser.updateOne({token});
   }
+
+
 return res.redirect(`${FRONTEND_URL}?token=${token}&email=${email}&avatarURL=${avatarURL}`);
 };
 
