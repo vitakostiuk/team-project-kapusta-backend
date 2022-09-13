@@ -4,7 +4,7 @@ const {users} = require("../../controllers");
 
 const {ctrlWrapper} = require("../../helpers");
 
-const { user, upload, validation } = require("../../middlewares");
+const { user, validation } = require("../../middlewares");
 
 const {balanceSchema} = require('../../schemas');
 
@@ -16,7 +16,7 @@ router.patch('/balance', user, validation(balanceSchema), ctrlWrapper(users.upda
 
 router.get('/balance', user, ctrlWrapper(users.getBalance));
 
-router.patch('/avatars', user, upload.single('avatar'), ctrlWrapper(users.updateAvatar));
+router.patch('/avatars', user, ctrlWrapper(users.updateAvatar));
 
 
 module.exports = router;
