@@ -392,6 +392,49 @@
             }
         }
     },
+    "/api/users/avatars": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "User avatar update",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+                "requestBody": {
+                    "description": "User`s email and avatar url" ,
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/AvatarsRequest"
+                            }
+                        }
+                    }
+                },
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/AvatarsRequest"
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Bad Request (invalid request body)",
+                    "content": {}
+                },
+                "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                },
+                "500": {
+                    "description": "Server error",
+                    "content": {}
+                }
+            }
+        }
+    },
     "/api/transactions/dates": {
         "get": {
                 "tags": ["Transactions"],
@@ -708,7 +751,22 @@
                     }
                 }
             },
-            
+            "AvatarsRequest": {
+                    "type": "object",
+                    "required": ["email", "avatarURL"],
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "description": "User`s email",
+                            "format": "email"
+                            },
+                        "avatarURL": {
+                            "type": "string",
+                            "description": "Avatar url",
+                            "example": "https://example.net/1556708032_1.jpg"
+                        }
+                    }
+            },
             "LoginResponse": {
                 "type": "object",
                 "properties": {
